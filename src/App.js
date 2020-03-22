@@ -20,22 +20,30 @@ function App() {
   }, [loginStatus])
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <HomePage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
-        </Route>
-        <Route path="/login">
-          <LoginPage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
-        </Route>
-        <Route path="/register">
-          <RegisterPage loginStatus={loginStatus} />
-        </Route>
-        <Route path="/:id">
-          <PasswordDetails loginStatus={loginStatus} />
-        </Route>
-      </Switch>
-    </Router>
+    <div 
+      className=" 
+        border 
+        all-container"
+    >
+      <Router>
+        <div className="content-container">
+          <Switch>
+            <Route exact path="/">
+              <HomePage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
+            </Route>
+            <Route path="/login">
+              <LoginPage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
+            </Route>
+            <Route path="/register">
+              <RegisterPage loginStatus={loginStatus} />
+            </Route>
+            <Route path="/:id">
+              <PasswordDetails loginStatus={loginStatus} />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </div>
   );
 }
 

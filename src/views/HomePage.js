@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
+// components
+import Header from '../components/Header'
 import AddPasswordModal from '../components/AddPasswordModal'
 import PasswordList from '../components/PasswordList'
 import useFetchPassword from '../hooks/useFetchPassword'
@@ -25,6 +27,7 @@ export default function HomePage ({ loginStatus, setLoginStatus }) {
   if (!passwords) return <>loading...</>
   return (
     <>
+      <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>
       HomePage
       <button onClick={() => setOpenModal(true)}>add new password</button>
       <PasswordList passwords={passwords} />
