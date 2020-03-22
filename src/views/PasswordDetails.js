@@ -14,8 +14,8 @@ export default function PasswordDetails ({ loginStatus }) {
   }, [history, loginStatus])
 
   if (!passwords) return <>loading</>
-  const [passwordDetail] = passwords.filter(pass => {return pass.id === +id})
 
+  const [passwordDetail] = passwords.filter(pass => {return pass.id === +id})
   const hide = (pass) => {
     let hiddenPass = ''
     pass.split('').forEach(_ => hiddenPass += '*')
