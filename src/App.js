@@ -9,26 +9,30 @@ import {
 import HomePage from '../src/views/HomePage'
 import LoginPage from '../src/views/LoginPage'
 import RegisterPage from '../src/views/RegisterPage'
+import PasswordDetails from './views/PasswordDetails';
 
 function App() {
-  const [token, setToken] = useState('')
+  const [loginStatus, setLoginStatus] = useState(false)
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token')
-    setToken(access_token)
-  }, [token])
+    if(access_token) setLoginStatus(true)
+  }, [loginStatus])
 
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          <HomePage token={token} setToken={setToken} />
+          <HomePage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
         </Route>
         <Route path="/login">
-          <LoginPage token={token} setToken={setToken} />
+          <LoginPage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
         </Route>
         <Route path="/register">
-          <RegisterPage token={token} />
+          <RegisterPage loginStatus={loginStatus} />
+        </Route>
+        <Route path="/:id">
+          <PasswordDetails loginStatus={loginStatus} />
         </Route>
       </Switch>
     </Router>
