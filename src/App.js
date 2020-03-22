@@ -19,19 +19,27 @@ function App() {
   }, [token])
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <HomePage token={token} setToken={setToken} />
-        </Route>
-        <Route path="/login">
-          <LoginPage token={token} setToken={setToken} />
-        </Route>
-        <Route path="/register">
-          <RegisterPage token={token} />
-        </Route>
-      </Switch>
-    </Router>
+    <div 
+      className=" 
+        border 
+        all-container"
+    >
+      <Router>
+        <div className="content-container">
+          <Switch>
+            <Route exact path="/">
+              <HomePage token={token} setToken={setToken} />
+            </Route>
+            <Route path="/login">
+              <LoginPage token={token} setToken={setToken} />
+            </Route>
+            <Route path="/register">
+              <RegisterPage token={token} />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </div>
   );
 }
 

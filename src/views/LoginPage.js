@@ -31,9 +31,14 @@ export default function LoginPage ({ token, setToken }) {
   }
 
   return (
-    <>
-      <form onSubmit={(e) => login(e)}>
-      <label>name</label>
+    <div
+      className="container border sign-container"
+    >
+      <form 
+        className="container border form-sign"
+        onSubmit={(e) => login(e)}
+      >
+        <label>name</label>
         <input
           type="text"
           onChange={(e) => setName(e.target.value)}
@@ -55,6 +60,6 @@ export default function LoginPage ({ token, setToken }) {
         <button type="submit">login</button>
         not a user yet? <Link to="/register">register</Link> here!
       </form>
-    </>
+    </div>
   )
 }

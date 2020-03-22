@@ -10,3 +10,50 @@ a, button{
 a, a:hover{
   text-decoration: none;
 }
+
+.all-container {
+  /* background-color: #000; */
+  min-height: 100vh;
+}
+
+/* header */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.current-user-container {
+  display: flex;
+  align-items: center;
+}
+
+.current-user-photo {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto 10px;
+  background-color: rgb(115, 12, 248);
+}
+
+.current-user-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.btn-signout {
+  margin: 10px 0 0 0;
+}
+
+.sign-container {
+  display: flex;
+  align-items: center;
+}
+
+.form-sign {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
