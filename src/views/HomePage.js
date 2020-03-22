@@ -1,13 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import axios from 'axios'
+
+import AddPasswordModal from '../components/AddPasswordModal'
+import PasswordList from '../components/PasswordList'
+import useFetchPassword from '../hooks/useFetchPassword'
 
 export default function HomePage ({ loginStatus, setLoginStatus }) {
   const history = useHistory()
+  const [openModal, setOpenModal] = useState(false)
+  const {
+    passwords,
+    fetchPassword
+  } = useFetchPassword()
 
   useEffect(() => {
     if(!loginStatus) history.push('/register')
-    fetchPassword()
   }, [loginStatus, history])
 
   const logout = () => {
@@ -15,22 +22,17 @@ export default function HomePage ({ loginStatus, setLoginStatus }) {
     localStorage.clear()
   }
 
-  const fetchPassword = () => {
-    const token = localStorage.getItem('access_token')
-    axios({
-      method: 'GET',
-      url: 'http://localhost:3000/passwords',
-      headers: {token}
-    })
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((err) => console.log(err))
-  }
-
+  if (!passwords) return <>loading...</>
   return (
     <>
       HomePage
+      <button onClick={() => setOpenModal(true)}>add new password</button>
+      <PasswordList passwords={passwords} />
+      <AddPasswordModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        fetchPassword={fetchPassword}
+      />
       <button onClick={logout}>logout</button>
     </>
   )

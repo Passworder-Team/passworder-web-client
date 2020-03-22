@@ -9,6 +9,7 @@ import {
 import HomePage from '../src/views/HomePage'
 import LoginPage from '../src/views/LoginPage'
 import RegisterPage from '../src/views/RegisterPage'
+import PasswordDetails from './views/PasswordDetails';
 
 function App() {
   const [loginStatus, setLoginStatus] = useState(false)
@@ -29,6 +30,9 @@ function App() {
         </Route>
         <Route path="/register">
           <RegisterPage loginStatus={loginStatus} />
+        </Route>
+        <Route path="/:id">
+          <PasswordDetails loginStatus={loginStatus} />
         </Route>
       </Switch>
     </Router>
