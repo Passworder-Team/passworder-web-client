@@ -7,8 +7,7 @@ import {
 } from 'react-router-dom'
 
 import HomePage from '../src/views/HomePage'
-import LoginPage from '../src/views/LoginPage'
-import RegisterPage from '../src/views/RegisterPage'
+import AuthenticationPage from './views/AuthenticationPage'
 import PasswordDetails from './views/PasswordDetails';
 
 function App() {
@@ -29,16 +28,19 @@ function App() {
         <div className="content-container">
           <Switch>
             <Route exact path="/">
-              <HomePage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
+              <HomePage
+                loginStatus={loginStatus}
+                setLoginStatus={setLoginStatus}
+              />
             </Route>
-            <Route path="/login">
-              <LoginPage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
+            <Route path="/authentication">
+              <AuthenticationPage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
             </Route>
-            <Route path="/register">
-              <RegisterPage loginStatus={loginStatus} />
-            </Route>
-            <Route path="/:id">
+            <Route path="/accountdetail/:id">
               <PasswordDetails loginStatus={loginStatus} />
+            </Route>
+            <Route path="/*">
+              404 ROUTE NOT FOUND
             </Route>
           </Switch>
         </div>

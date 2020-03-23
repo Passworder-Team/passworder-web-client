@@ -1,29 +1,33 @@
 import React, { useState } from 'react'
 import { Modal, ModalHeader, ModalBody } from 'reactstrap'
 import axios from 'axios'
+import { useParams, useHistory } from 'react-router-dom'
 
-export default function AddPasswordModal ({
+export default function UpdatePasswordModal ({
+  passwordDetail,
   openModal,
-  setOpenModal,
+  toggleModal,
   fetchPassword
 }) {
-  const [account, setAccount] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [account, setAccount] = useState(passwordDetail.account)
+  const [email, setEmail] = useState(passwordDetail.email)
+  const [password, setPassword] = useState(passwordDetail.password)
+  const { id } = useParams()
+  const history = useHistory()
 
-  const createPassword = e => {
+  const updatePassword = e => {
     e.preventDefault()
     const token = localStorage.getItem('access_token')
     axios({
-      method: 'POST',
-      url: 'http://localhost:3000/passwords',
+      method: 'PUT',
+      url: `http://localhost:3000/passwords/${id}`,
       headers: { token },
       data: { account, email, password }
     })
       .then(({ data }) => {
         console.log(data.msg)
         fetchPassword()
-        setOpenModal(false)
+        history.push('/')
       })
       .catch(err => console.log(err))
       .finally(() => {
@@ -36,10 +40,10 @@ export default function AddPasswordModal ({
   return (
     <Modal isOpen={openModal}>
       <ModalHeader>
-        Create new Password
+        Update account details
       </ModalHeader>
       <ModalBody>
-        <form onSubmit={e => createPassword(e)}>
+        <form onSubmit={e => updatePassword(e)}>
           <label>Account Name</label>
           <input
             value={account}
@@ -64,8 +68,8 @@ export default function AddPasswordModal ({
             minLength="6"
             required
           />
-          <button type="submit">create</button>
-          <button type="button" onClick={() => setOpenModal(false)}>cancel</button>
+          <button type="submit">update</button>
+          <button type="button" onClick={toggleModal}>cancel</button>
         </form>
       </ModalBody>
     </Modal>

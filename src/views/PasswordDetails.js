@@ -1,26 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
-import useFetchPassword from '../hooks/useFetchPassword'
 import axios from 'axios'
 
+import UpdatePasswordModal from '../components/UpdatePasswordModal'
+
 export default function PasswordDetails ({ loginStatus }) {
-  const { passwords, fetchPassword } = useFetchPassword()
   const history = useHistory()
   const { id } = useParams()
   const [verified, verifyUser] = useState(false)
+  const [passwords, setPasswords] = useState('')
+  const [openModal, setOpenModal] = useState(false)
+  const [passwordDetail] = passwords ? passwords.filter(pass => {return pass.id === +id}) : ''
 
   useEffect(() => {
     if(!loginStatus) history.push('/register')
+    fetchPassword()
   }, [history, loginStatus])
 
-  if (!passwords) return <>loading</>
-  const [passwordDetail] = passwords.filter(pass => {return pass.id === +id})
+  const fetchPassword = () => {
+    const token = localStorage.getItem('access_token')
+    axios({
+      method: 'GET',
+      url: 'http://localhost:3000/passwords',
+      headers: { token }
+    })
+      .then(({ data }) => {
+        setPasswords(data)
+      })
+      .catch((err) => console.log(err))
+  }
 
   const hide = (pass) => {
     let hiddenPass = ''
     pass.split('').forEach(_ => hiddenPass += '*')
     return hiddenPass
   }
+
+  const toggleModal = () => setOpenModal(!openModal)
 
   const showPassword = (e) => {
     e.preventDefault()
@@ -42,6 +58,8 @@ export default function PasswordDetails ({ loginStatus }) {
       .catch((err) => console.log(err))
   }
   
+  if (!passwordDetail) return <>loading</>
+
   return (
     <>
       <div>
@@ -50,7 +68,6 @@ export default function PasswordDetails ({ loginStatus }) {
             <label>used web account</label>
             <input
               value={passwordDetail.account}
-              contentEditable={false}
               readOnly
             />
           </div>
@@ -58,7 +75,6 @@ export default function PasswordDetails ({ loginStatus }) {
             <label>registered email</label>
             <input
               value={passwordDetail.email}
-              contentEditable={false}
               readOnly
             />
           </div>
@@ -70,7 +86,6 @@ export default function PasswordDetails ({ loginStatus }) {
                   ? passwordDetail.password 
                   : hide(passwordDetail.password)
                 }
-              contentEditable={false}
               readOnly
             />
             <button
@@ -81,9 +96,16 @@ export default function PasswordDetails ({ loginStatus }) {
           </div>
         </form>
         <button><Link to="/">home</Link></button>
+        <button onClick={toggleModal}>edit</button>
         <button
           onClick={(e) => deletePassword(e, passwordDetail.id)}
         >delete password</button>
+        <UpdatePasswordModal
+          passwordDetail={passwordDetail}
+          openModal={openModal}
+          toggleModal={toggleModal}
+          fetchPassword={fetchPassword}
+        />
       </div>
     </>
   )
