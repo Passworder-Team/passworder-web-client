@@ -14,7 +14,7 @@ export default function PasswordList ({ passwords }) {
               <div>
                 {pass.account}
               </div>
-              <button><Link to={`/${pass.id}`}>details</Link></button>
+              <button><Link to={`/accountdetail/${pass.id}`}>details</Link></button>
             </div>
           )
         })}

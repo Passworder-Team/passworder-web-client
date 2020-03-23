@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom'
 
 import HomePage from '../src/views/HomePage'
-import LoginPage from '../src/views/LoginPage'
-import RegisterPage from '../src/views/RegisterPage'
+import AuthenticationPage from './views/AuthenticationPage'
+// import RegisterPage from '../src/views/RegisterPage'
 import PasswordDetails from './views/PasswordDetails';
 
 function App() {
@@ -31,14 +31,17 @@ function App() {
             <Route exact path="/">
               <HomePage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
             </Route>
-            <Route path="/login">
-              <LoginPage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
+            <Route path="/authentication">
+              <AuthenticationPage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
             </Route>
-            <Route path="/register">
+            {/* <Route path="/register">
               <RegisterPage loginStatus={loginStatus} />
-            </Route>
-            <Route path="/:id">
+            </Route> */}
+            <Route path="/accountdetail/:id">
               <PasswordDetails loginStatus={loginStatus} />
+            </Route>
+            <Route path="/*">
+              404 ROUTE NOT FOUND
             </Route>
           </Switch>
         </div>

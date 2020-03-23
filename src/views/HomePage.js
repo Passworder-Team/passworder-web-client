@@ -16,7 +16,7 @@ export default function HomePage ({ loginStatus, setLoginStatus }) {
   } = useFetchPassword()
 
   useEffect(() => {
-    if(!loginStatus) history.push('/register')
+    if(!loginStatus) history.push('/authentication')
   }, [loginStatus, history])
 
   const logout = () => {
