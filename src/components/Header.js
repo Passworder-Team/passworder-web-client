@@ -18,11 +18,11 @@ export default function Header({ token, setToken }) {
         <h1>LOGO</h1>
       </div>
       <div className="current-user-container">
-        <div class="dropdown">
-          <button class="current-user-photo rounded-circle border" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div className="dropdown">
+          <button className="current-user-photo rounded-circle border" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             U
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <div className="dropdown-item">
               <Link to="user/profile">Profile</Link>
             </div>
