@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import passworderApi from '../config/api'
 
 // components
 import Header from '../components/Header'
 import AddPasswordModal from '../components/AddPasswordModal'
 import PasswordList from '../components/PasswordList'
-import axios from 'axios'
 
 export default function HomePage ({ loginStatus, setLoginStatus }) {
   const history = useHistory()
@@ -19,9 +19,9 @@ export default function HomePage ({ loginStatus, setLoginStatus }) {
 
   const fetchPassword = () => {
     const token = localStorage.getItem('access_token')
-    axios({
+    passworderApi({
       method: 'GET',
-      url: 'http://localhost:3000/passwords',
+      url: '/passwords',
       headers: { token }
     })
       .then(({ data }) => {
