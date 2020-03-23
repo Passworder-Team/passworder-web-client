@@ -13,6 +13,7 @@ export default function RegisterPage ({ loginStatus }) {
   }, [loginStatus, history])
 
   const register = (e) => {
+    console.log(name, email, password)
     e.preventDefault()
     let payload= { name, email, password }
     axios

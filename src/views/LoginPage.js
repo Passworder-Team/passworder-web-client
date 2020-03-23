@@ -8,8 +8,9 @@ import {
   Row, 
   Col  } from 'reactstrap'
 import classnames from 'classnames'
-import { useHistory, Link } from 'react-router-dom'
-import axios from 'axios'
+import { useHistory } from 'react-router-dom'
+import LoginTab from '../components/LoginTab'
+// import axios from 'axios'
 
 export default function LoginPage ({ loginStatus, setLoginStatus }) {
   const [name, setName] = useState('')
@@ -27,23 +28,23 @@ export default function LoginPage ({ loginStatus, setLoginStatus }) {
     if (activeTab !== tab) setActiveTab(tab);
   }
 
-  const login = (e) => {
-    e.preventDefault()
-    let payload = { name, email, password }
-    axios
-      .post('http://localhost:3000/auth/login', payload)
-      .then(({ data }) => {
-        localStorage.setItem('access_token', data.token)
-        setLoginStatus(true)
-        history.push('/')
-      })
-      .catch((err) => {
-        // console.log(err)
-        setName('')
-        setEmail('')
-        setPassword('')
-      })
-  }
+  // const login = (e) => {
+  //   e.preventDefault()
+  //   let payload = { name, email, password }
+  //   axios
+  //     .post('http://localhost:3000/auth/login', payload)
+  //     .then(({ data }) => {
+  //       localStorage.setItem('access_token', data.token)
+  //       setLoginStatus(true)
+  //       history.push('/')
+  //     })
+  //     .catch((err) => {
+  //       // console.log(err)
+  //       setName('')
+  //       setEmail('')
+  //       setPassword('')
+  //     })
+  // }
 
   return (
     <div
@@ -82,7 +83,8 @@ export default function LoginPage ({ loginStatus, setLoginStatus }) {
           </div>
         </Nav>
         <TabContent activeTab={activeTab}>
-          <TabPane tabId="1">
+          <LoginTab tabId={"1"} setLoginStatus={setLoginStatus} />
+          {/* <TabPane tabId="1">
             <Row>
               <Col sm="12">
                 <form
@@ -119,7 +121,7 @@ export default function LoginPage ({ loginStatus, setLoginStatus }) {
                 </form>
               </Col>
             </Row>
-          </TabPane>
+          </TabPane> */}
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
