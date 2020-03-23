@@ -65,6 +65,11 @@ a, a:hover{
   text-align: center;
 }
 
+.logo-img {
+  width: 4rem;
+  margin: 0 20px;
+}
+
 .form-sign {
   display: flex;
   align-items: center;
@@ -81,6 +86,7 @@ a, a:hover{
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   padding-bottom: 2rem;
 }
 

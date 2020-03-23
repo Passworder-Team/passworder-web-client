@@ -57,7 +57,7 @@ export default function LoginPage ({ loginStatus, setLoginStatus }) {
           "
       >
         <div className="sign-logo-container">
-          <p className="m-0 form-logo">PASSWORDER</p>
+          <img className="logo-img" src={require("../assets/images/passworder-logo-1.png")} alt="logo-img"></img>
         </div>
         <Nav tabs>
           <div className="col-6">
@@ -95,17 +95,7 @@ export default function LoginPage ({ loginStatus, setLoginStatus }) {
                       form-all-input-container"
                   >
                     <div className="form-group form-input-group">
-                      <label>name</label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        onChange={(e) => setName(e.target.value)}
-                        minLength="3"
-                        required
-                      />
-                    </div>
-                    <div className="form-group form-input-group">
-                      <label>email</label>
+                      <label>Email</label>
                       <input
                         className="form-control"
                         type="email"
@@ -114,7 +104,7 @@ export default function LoginPage ({ loginStatus, setLoginStatus }) {
                       />
                     </div>
                     <div className="form-group form-input-group">
-                      <label>password</label>
+                      <label>Password</label>
                       <input
                         className="form-control"
                         type="password"
@@ -142,7 +132,7 @@ export default function LoginPage ({ loginStatus, setLoginStatus }) {
                       form-all-input-container"
                   >
                     <div className="form-group form-input-group">
-                      <label>name</label>
+                      <label>Full Name</label>
                       <input
                         className="form-control"
                         type="text"
@@ -152,7 +142,7 @@ export default function LoginPage ({ loginStatus, setLoginStatus }) {
                       />
                     </div>
                     <div className="form-group form-input-group">
-                      <label>email</label>
+                      <label>Email</label>
                       <input
                         className="form-control"
                         type="email"
@@ -161,7 +151,16 @@ export default function LoginPage ({ loginStatus, setLoginStatus }) {
                       />
                     </div>
                     <div className="form-group form-input-group">
-                      <label>password</label>
+                      <label>Phone Number</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="form-group form-input-group">
+                      <label>Password</label>
                       <input
                         className="form-control"
                         type="password"
