@@ -7,7 +7,8 @@ export default function UpdatePasswordModal({
   openFormOtp,
   toggleFormInputOtp,
   otpMesage,
-  passwordToShow
+  passwordToShow,
+  password
 }) {
   const [otpCode, setOtpCode] = useState('')
   const { id } = useParams()
@@ -30,7 +31,7 @@ export default function UpdatePasswordModal({
     })
       .then(({ data }) => {
         console.log(data)
-        passwordToShow(data.secret)
+        passwordToShow(password.password)
       })
       .catch(err => {
         console.log(err)

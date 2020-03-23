@@ -13,8 +13,7 @@ export default function PasswordDetails ({ loginStatus }) {
   const [openModal, setOpenModal] = useState(false)
   const [openFormOtp, setOpenFormOtp] = useState(false)
   const [otpMesage, setOtpMessage] = useState('')
-  const [secret, setSecret] = useState('*********')
-  // const [passwordDetail] = passwords ? passwords.filter(pass => {return pass.id === +id}) : ''
+  const [accountPassword, setAccountPassword] = useState('*********')
 
   useEffect(() => {
     if(!loginStatus) history.push('/authentication')
@@ -46,7 +45,7 @@ export default function PasswordDetails ({ loginStatus }) {
 
   const toggleModal = () => setOpenModal(!openModal)
   const toggleFormInputOtp = () => setOpenFormOtp(!openFormOtp)
-  const passwordToShow = (pass) => setSecret(pass)
+  const passwordToShow = (pass) => setAccountPassword(pass)
 
   const requestShowPassword = (e, id) => {
     e.preventDefault()
@@ -60,7 +59,6 @@ export default function PasswordDetails ({ loginStatus }) {
       }
     })
       .then(({ data }) => {
-        console.log(data)
         setOtpMessage(data.msg)
         setVerifyUser(true)
       })
@@ -84,14 +82,11 @@ export default function PasswordDetails ({ loginStatus }) {
       .catch((err) => console.log(err))
   }
   
-  // if (!passwordDetail) return <>loading</>
   if (!password) return <>loading</>
 
 
   return (
     <>
-    {/* {console.log(password)} */}
-     {/* {console.log(passwordDetail)} */}
       <div>
         <form>
           <div>
@@ -113,7 +108,7 @@ export default function PasswordDetails ({ loginStatus }) {
             <input
               value={
                 verified 
-                  ? secret
+                  ? accountPassword
                   : '*********'
                 }
               readOnly
@@ -137,6 +132,7 @@ export default function PasswordDetails ({ loginStatus }) {
           fetchPassword={fetchPassword}
         />
         <FormInputOtp 
+          password={password}
           otpMesage={otpMesage}
           openFormOtp={openFormOtp}
           toggleFormInputOtp={toggleFormInputOtp}
