@@ -8,7 +8,6 @@ import {
 
 import HomePage from '../src/views/HomePage'
 import AuthenticationPage from './views/AuthenticationPage'
-// import RegisterPage from '../src/views/RegisterPage'
 import PasswordDetails from './views/PasswordDetails';
 
 function App() {
@@ -29,14 +28,14 @@ function App() {
         <div className="content-container">
           <Switch>
             <Route exact path="/">
-              <HomePage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
+              <HomePage
+                loginStatus={loginStatus}
+                setLoginStatus={setLoginStatus}
+              />
             </Route>
             <Route path="/authentication">
               <AuthenticationPage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
             </Route>
-            {/* <Route path="/register">
-              <RegisterPage loginStatus={loginStatus} />
-            </Route> */}
             <Route path="/accountdetail/:id">
               <PasswordDetails loginStatus={loginStatus} />
             </Route>
