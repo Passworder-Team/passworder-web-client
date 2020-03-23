@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
-import axios from 'axios'
+import passworderApi from '../config/api'
 
 import UpdatePasswordModal from '../components/UpdatePasswordModal'
+import FormInputOtp from '../components/FormInputOtp'
 
 export default function PasswordDetails ({ loginStatus }) {
   const history = useHistory()
   const { id } = useParams()
-  const [verified, verifyUser] = useState(false)
-  const [passwords, setPasswords] = useState('')
+  const [verified, setVerifyUser] = useState(false)
+  const [password, setPassword] = useState('')
   const [openModal, setOpenModal] = useState(false)
-  const [passwordDetail] = passwords ? passwords.filter(pass => {return pass.id === +id}) : ''
+  const [openFormOtp, setOpenFormOtp] = useState(false)
+  const [otpMesage, setOtpMessage] = useState('')
+  const [secret, setSecret] = useState('*********')
+  // const [passwordDetail] = passwords ? passwords.filter(pass => {return pass.id === +id}) : ''
 
   useEffect(() => {
     if(!loginStatus) history.push('/authentication')
@@ -19,36 +23,58 @@ export default function PasswordDetails ({ loginStatus }) {
 
   const fetchPassword = () => {
     const token = localStorage.getItem('access_token')
-    axios({
+    passworderApi({
       method: 'GET',
-      url: 'http://localhost:3000/passwords',
+      url: `/passwords/${id}`,
       headers: { token }
     })
       .then(({ data }) => {
-        setPasswords(data)
+        setPassword(data)
       })
       .catch((err) => console.log(err))
   }
 
   const hide = (pass) => {
-    let hiddenPass = ''
-    pass.split('').forEach(_ => hiddenPass += '*')
-    return hiddenPass
+    console.log('masuk hide')
+    if (pass) {
+      console.log(pass)
+      let hiddenPass = ''
+      pass.split('').forEach(_ => hiddenPass += '*')
+      return hiddenPass
+    }
   }
 
   const toggleModal = () => setOpenModal(!openModal)
+  const toggleFormInputOtp = () => setOpenFormOtp(!openFormOtp)
+  const passwordToShow = (pass) => setSecret(pass)
 
-  const showPassword = (e) => {
+  const requestShowPassword = (e, id) => {
     e.preventDefault()
-    verifyUser(true)
+    setVerifyUser(false)
+    setOpenFormOtp(true)
+    passworderApi({
+      method: 'GET',
+      url: `/otp/${id}`,
+      headers: {
+        token: localStorage.getItem('access_token')
+      }
+    })
+      .then(({ data }) => {
+        console.log(data)
+        setOtpMessage(data.msg)
+        setVerifyUser(true)
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
   }
 
   const deletePassword = (e, id) => {
     e.preventDefault()
     const token  = localStorage.getItem('access_token')
-    axios({
+    passworderApi({
       method: 'DELETE',
-      url: `http://localhost:3000/passwords/${id}`,
+      url: `/passwords/${id}`,
       headers: { token }
     })
       .then(_ => {
@@ -58,23 +84,27 @@ export default function PasswordDetails ({ loginStatus }) {
       .catch((err) => console.log(err))
   }
   
-  if (!passwordDetail) return <>loading</>
+  // if (!passwordDetail) return <>loading</>
+  if (!password) return <>loading</>
+
 
   return (
     <>
+    {/* {console.log(password)} */}
+     {/* {console.log(passwordDetail)} */}
       <div>
         <form>
           <div>
             <label>used web account</label>
             <input
-              value={passwordDetail.account}
+              value={password.account}
               readOnly
             />
           </div>
           <div>
             <label>registered email</label>
             <input
-              value={passwordDetail.email}
+              value={password.email}
               readOnly
             />
           </div>
@@ -83,13 +113,13 @@ export default function PasswordDetails ({ loginStatus }) {
             <input
               value={
                 verified 
-                  ? passwordDetail.password 
-                  : hide(passwordDetail.password)
+                  ? secret
+                  : '*********'
                 }
               readOnly
             />
             <button
-              onClick={(e) => showPassword(e)}
+              onClick={(e) => requestShowPassword(e, password.id)}
             >
               <i className="fas fa-eye"></i>
             </button>
@@ -98,13 +128,19 @@ export default function PasswordDetails ({ loginStatus }) {
         <button><Link to="/">home</Link></button>
         <button onClick={toggleModal}>edit</button>
         <button
-          onClick={(e) => deletePassword(e, passwordDetail.id)}
+          onClick={(e) => deletePassword(e, password.id)}
         >delete password</button>
         <UpdatePasswordModal
-          passwordDetail={passwordDetail}
+          passwordDetail={password}
           openModal={openModal}
           toggleModal={toggleModal}
           fetchPassword={fetchPassword}
+        />
+        <FormInputOtp 
+          otpMesage={otpMesage}
+          openFormOtp={openFormOtp}
+          toggleFormInputOtp={toggleFormInputOtp}
+          passwordToShow={passwordToShow}
         />
       </div>
     </>

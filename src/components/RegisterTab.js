@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { TabPane, Row, Col } from 'reactstrap'
-import axios from 'axios'
+import passworderApi from '../config/api'
 import { useHistory } from 'react-router-dom'
 
 export default function RegisterTab ({ tabId, setLoginStatus }) {
@@ -16,11 +16,14 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
     let payload = { 
       name, 
       email, 
-      phone: newPhone, 
+      phoneNumber: newPhone, 
       password
     }
-    axios
-      .post('http://localhost:3000/auth/register', payload)
+    passworderApi({
+      method: 'POST',
+      url: '/auth/register',
+      data: payload
+    })
       .then(({ data }) => {
         localStorage.setItem('access_token', data.token)
         setLoginStatus(true)
