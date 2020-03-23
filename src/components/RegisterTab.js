@@ -12,8 +12,13 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
 
   const register = (e) => {
     e.preventDefault()
-    let payload = { name, email, phone, password }
-    console.log(payload)
+    let newPhone = phone.split('').map((num, i) => i === 0 ? num = '+62' : num).join('')
+    let payload = { 
+      name, 
+      email, 
+      phone: newPhone, 
+      password
+    }
     axios
       .post('http://localhost:3000/auth/register', payload)
       .then(({ data }) => {
@@ -71,6 +76,7 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  maxLength="13"
                   required
                 />
               </div>
