@@ -13,7 +13,7 @@ export default function PasswordDetails ({ loginStatus }) {
   const [passwordDetail] = passwords ? passwords.filter(pass => {return pass.id === +id}) : ''
 
   useEffect(() => {
-    if(!loginStatus) history.push('/register')
+    if(!loginStatus) history.push('/authentication')
     fetchPassword()
   }, [history, loginStatus])
 
