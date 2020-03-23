@@ -3,19 +3,15 @@ import {
   Nav, 
   NavItem, 
   NavLink, 
-  TabContent, 
-  TabPane, 
-  Row, 
-  Col  } from 'reactstrap'
+  TabContent
+} from 'reactstrap'
 import classnames from 'classnames'
 import { useHistory } from 'react-router-dom'
+
 import LoginTab from '../components/LoginTab'
-// import axios from 'axios'
+import RegisterTab from '../components/RegisterTab'
 
 export default function AuthenticationPage ({ loginStatus, setLoginStatus }) {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const history = useHistory()
 
   useEffect(() => {
@@ -66,62 +62,7 @@ export default function AuthenticationPage ({ loginStatus, setLoginStatus }) {
         </Nav>
         <TabContent activeTab={activeTab}>
           <LoginTab tabId={"1"} setLoginStatus={setLoginStatus} />
-          {/* <TabPane tabId="2">
-            <Row>
-              <Col sm="12">
-                <form
-                  className="form-sign"
-                >
-                  <div
-                    className="
-                      p-3
-                      form-all-input-container"
-                  >
-                    <div className="form-group form-input-group">
-                      <label>Full Name</label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        onChange={(e) => setName(e.target.value)}
-                        minLength="3"
-                        required
-                      />
-                    </div>
-                    <div className="form-group form-input-group">
-                      <label>Email</label>
-                      <input
-                        className="form-control"
-                        type="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="form-group form-input-group">
-                      <label>Phone Number</label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="form-group form-input-group">
-                      <label>Password</label>
-                      <input
-                        className="form-control"
-                        type="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="form-action-container">
-                      <button className="btn btn-dark mr-3" type="submit">Sign up</button>
-                    </div>
-                  </div>
-                </form>
-              </Col>
-            </Row>
-          </TabPane> */}
+          <RegisterTab tabId={"2"} setLoginStatus={setLoginStatus} />
         </TabContent>
       </div>
     </div>

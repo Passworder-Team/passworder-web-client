@@ -11,11 +11,9 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
   const login = (e) => {
     e.preventDefault()
     let payload = { email, password }
-    console.log(email, password)
     axios
       .post('http://localhost:3000/auth/login', payload)
       .then(({ data }) => {
-        console.log(data)
         localStorage.setItem('access_token', data.token)
         setLoginStatus(true)
         history.push('/')

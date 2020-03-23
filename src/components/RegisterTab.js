@@ -13,17 +13,19 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
   const register = (e) => {
     e.preventDefault()
     let payload = { name, email, phone, password }
+    console.log(payload)
     axios
       .post('http://localhost:3000/auth/register', payload)
       .then(({ data }) => {
-        console.log(data)
         localStorage.setItem('access_token', data.token)
         setLoginStatus(true)
         history.push('/')
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
+        setName('')
         setEmail('')
+        setPhone('')
         setPassword('')
       })
   }
@@ -46,6 +48,7 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
                 <input
                   className="form-control"
                   type="text"
+                  value={name}
                   onChange={(e) => setName(e.target.value)}
                   minLength="3"
                   required
@@ -56,6 +59,7 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
                 <input
                   className="form-control"
                   type="email"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
@@ -65,7 +69,8 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
                 <input
                   className="form-control"
                   type="text"
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   required
                 />
               </div>
@@ -74,6 +79,8 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
                 <input
                   className="form-control"
                   type="password"
+                  value={password}
+                  minLength="6"
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />

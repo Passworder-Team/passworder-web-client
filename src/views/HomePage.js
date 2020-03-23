@@ -24,7 +24,6 @@ export default function HomePage ({ loginStatus, setLoginStatus }) {
     localStorage.clear()
   }
 
-  if (!passwords) return <>loading...</>
   return (
     <>
       <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>

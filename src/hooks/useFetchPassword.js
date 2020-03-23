@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 export default function useFetchPassword () {
-  const [passwords, setPasswords] = useState('')
+  const [passwords, setPasswords] = useState([])
   const [detail, setDetail] = useState({})
   
   useEffect(() => {
