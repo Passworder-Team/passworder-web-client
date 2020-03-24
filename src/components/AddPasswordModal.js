@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, ModalHeader, ModalBody } from 'reactstrap'
-import axios from 'axios'
+import passworderApi from '../config/api'
 
 export default function AddPasswordModal ({
   openModal,
@@ -14,7 +14,7 @@ export default function AddPasswordModal ({
   const createPassword = e => {
     e.preventDefault()
     const token = localStorage.getItem('access_token')
-    axios({
+    passworderApi({
       method: 'POST',
       url: 'http://localhost:3000/passwords',
       headers: { token },

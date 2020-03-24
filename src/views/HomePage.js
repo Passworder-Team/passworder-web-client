@@ -6,7 +6,6 @@ import passworderApi from '../config/api'
 import Header from '../components/Header'
 import AddPasswordModal from '../components/AddPasswordModal'
 import PasswordList from '../components/PasswordList'
-import PasswordDetail from './PasswordDetails'
 
 export default function HomePage ({ loginStatus, setLoginStatus }) {
   const history = useHistory()

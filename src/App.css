@@ -194,11 +194,36 @@ a, a:hover{
   align-items: center;
 }
 
+.show-password-area {
+  display: flex;
+  align-items: center;
+}
+
 .showPassword-toggle {
   font-size: 2rem;
 }
 
 .showPassword-toggle:hover {
   cursor: pointer;
+}
+
+.modal-otp-body {
+  width: 100%;
+  display: flex;
+}
+
+.input-otp-area {
+  display: flex;
+  align-items: center;
+}
+
+.btn-resend-otp:hover {
+  cursor: pointer;
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.alert-error {
+  font-size: 1rem;
 }
 /* detail password end */

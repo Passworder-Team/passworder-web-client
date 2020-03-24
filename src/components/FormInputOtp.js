@@ -6,10 +6,15 @@ import jwt from 'jsonwebtoken'
 
 export default function UpdatePasswordModal({
   openFormOtp,
+  setOpenFormOtp,
   toggleFormInputOtp,
   otpMesage,
   passwordToShow,
-  password
+  password,
+  requestShowPassword,
+  setOtpResponseMessage,
+  setOtpError,
+  setHidePassword
 }) {
   const [otpCode, setOtpCode] = useState('')
   const { id } = useParams()
@@ -31,27 +36,39 @@ export default function UpdatePasswordModal({
       .then(({ data }) => {
         const decoded = jwt.verify(password.password, data.secret)
         passwordToShow(decoded)
+        setOtpResponseMessage('')
+        setOpenFormOtp(false)
+        setHidePassword(false)
+        setOtpError(false)
       })
       .catch(err => {
-        console.log(err)
+        setOtpResponseMessage(err.response.data.msg)
+        setOtpError(true)
+        setOpenFormOtp(false)
       })
   }
 
   return (
-    <Modal isOpen={openFormOtp}>
+    <Modal className="modal-otp" isOpen={openFormOtp}>
       <ModalHeader>
         Input OTP Code
       </ModalHeader>
-      <ModalBody>
-        <form onSubmit={e => sendOtp(e)}>
+      <ModalBody className="modal-otp-body">
+        <form onSubmit={(e) => sendOtp(e)}>
           <div className="form-group">
             <label>{otpMesage}</label>
-            <input
-              value={otpCode}
-              onChange={e => setOtpCode(e.target.value)}
-              type="text"
-              required
-            /><br />
+            <div className="input-otp-area">
+              <input
+                value={otpCode}
+                onChange={e => setOtpCode(e.target.value)}
+                type="text"
+                required
+              />
+              <button
+                className="ml-3 btn btn-resend-otp"
+                onClick={e => requestShowPassword(e, id)}
+              >Resend OTP Code</button>
+            </div>
           </div>
           <div>
             <button
