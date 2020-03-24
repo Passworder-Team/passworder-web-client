@@ -30,15 +30,9 @@ export default function HomePage ({ loginStatus, setLoginStatus }) {
       .catch((err) => console.log(err))
   }
 
-  const logout = () => {
-    setLoginStatus(false)
-    localStorage.clear()
-  }
-
   return (
     <>
       <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>
-      HomePage
       <button onClick={() => setOpenModal(true)}>add new password</button>
       <PasswordList passwords={passwords} />
       <AddPasswordModal
@@ -46,7 +40,6 @@ export default function HomePage ({ loginStatus, setLoginStatus }) {
         setOpenModal={setOpenModal}
         fetchPassword={fetchPassword}
       />
-      <button onClick={logout}>logout</button>
     </>
   )
 }
