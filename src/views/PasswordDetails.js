@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
 import passworderApi from '../config/api'
 
+import Header from '../components/Header'
 import UpdatePasswordModal from '../components/UpdatePasswordModal'
 import FormInputOtp from '../components/FormInputOtp'
 
@@ -88,44 +89,59 @@ export default function PasswordDetails ({ loginStatus }) {
 
   return (
     <>
-      <div>
-        <form>
-          <div>
-            <label>used web account</label>
-            <input
-              value={password.account}
-              readOnly
-            />
-          </div>
-          <div>
-            <label>registered email</label>
-            <input
-              value={password.email}
-              readOnly
-            />
-          </div>
-          <div>
-            <label>registered password</label>
-            <input
-              value={
-                verified 
-                  ? accountPassword
-                  : '*********'
-                }
-              readOnly
-            />
-            <button
-              onClick={(e) => requestShowPassword(e, password.id)}
+      <Header />
+      <div className="col-sm-12 col-lg-8 container">
+        <div className="border-bottom p-3 detail-account-title-container">
+          <h2 className="detail-account-title">
+            {password.account}
+          </h2>
+          <div className="detail-account-action-container">
+            <div 
+              className="mx-2 rounded p-2 detail-account-action"
+              onClick={toggleModal}
             >
-              <i className="fas fa-eye"></i>
-            </button>
+              <i className="mx-1 fas fa-pen"></i>
+              <p className="m-0 lg-show">
+                Edit
+              </p>
+            </div>
+            <div 
+              className="mx-2 rounded p-2 detail-account-action"
+              onClick={(e) => deletePassword(e, password.id)}
+            >
+              <i className="mx-1 fas fa-trash"></i>
+              <p className="m-0 lg-show">
+                Remove
+              </p>
+            </div>
           </div>
-        </form>
-        <button><Link to="/">home</Link></button>
-        <button onClick={toggleModal}>edit</button>
-        <button
-          onClick={(e) => deletePassword(e, password.id)}
-        >delete password</button>
+        </div>
+        <div className="detail-account-content-container">
+          <div className="my-5 pl-3 detail-account-item">
+            <h5>Website address</h5>
+            <h3>{password.account}</h3>
+          </div>
+          <div className="my-5 pl-3 detail-account-item">
+            <h5>Registered email</h5>
+            <h3>{password.email}</h3>
+          </div>
+          <div className="my-5 pl-3 detail-account-item">
+            <h5>Registered password</h5>
+            <div className="password-detail-area">
+              <h3 className="m-0 p-0">
+                {
+                  verified
+                    ? accountPassword
+                    : '*********'
+                }
+              </h3>
+              <i 
+                onClick={(e) => requestShowPassword(e, password.id)}
+                className="mx-3 fas fa-eye showPassword-toggle"
+              ></i>
+            </div>
+          </div>
+        </div>
         <UpdatePasswordModal
           passwordDetail={password}
           openModal={openModal}

@@ -24,31 +24,36 @@ export default function Header({ loginStatus, setLoginStatus }) {
   return (
     <div 
       className="
-        px-2
-        border-bottom 
+        p-3
         header-container"
     >
       <div className="logo-container">
-        <h1>LOGO</h1>
+        <Link to="/">
+          <img 
+            src={require('../assets/images/passworder-logo-1-white.png')} 
+            alt="header-logo" 
+            className="header-logo"
+          ></img>
+        </Link>
       </div>
-      <div className="current-user-container">
+      <div className="px-2 current-user-container">
         <div className="dropdown">
           <button className="current-user-photo rounded-circle border" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {userInitial}
+              {userInitial}
           </button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <div className="dropdown-item">
-              <Link to="user/profile">Profile</Link>
-            </div>
-            <div className="dropdown-item">
-              <p onClick={logout}>
+              <p
+                className="btn-signout" 
+                onClick={logout}
+              >
                 Sign out
               </p>
             </div>
           </div>
         </div>
         <div className="current-user-name">
-          <h4>{currentUser}</h4>
+          <h4 className="m-0">{currentUser}</h4>
         </div>
       </div>
     </div>

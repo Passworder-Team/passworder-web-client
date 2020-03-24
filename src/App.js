@@ -21,7 +21,6 @@ function App() {
   return (
     <div 
       className=" 
-        border 
         all-container"
     >
       <Router>

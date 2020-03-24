@@ -42,34 +42,53 @@ export default function UpdatePasswordModal ({
       <ModalHeader>
         Update account details
       </ModalHeader>
-      <ModalBody>
-        <form onSubmit={e => updatePassword(e)}>
-          <label>Account Name</label>
-          <input
-            value={account}
-            onChange={e => setAccount(e.target.value)}
-            type="url"
-            required
-          />
-          <br />
-          <label>Email</label>
-          <input
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            type="email"
-            required
-          />
-          <br />
-          <label>Account Password</label>
-          <input
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            type="password"
-            minLength="6"
-            required
-          />
-          <button type="submit">update</button>
-          <button type="button" onClick={toggleModal}>cancel</button>
+      <ModalBody className="form-add-edit-password-container">
+        <form
+          className="form-add-edit-password" 
+          onSubmit={e => updatePassword(e)}
+        >
+          <div className="form-group form-input">
+            <label>Website address</label>
+            <input
+              className="form-control"
+              value={account}
+              onChange={e => setAccount(e.target.value)}
+              type="url"
+              required
+            />
+          </div>
+          <div className="form-group form-input">
+            <label>Email</label>
+            <input
+              className="form-control"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              type="email"
+              required
+            />
+          </div>
+          <div className="form-group form-input">
+            <label>Account Password</label>
+            <input
+              className="form-control"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              type="password"
+              minLength="6"
+              required
+            />
+          </div>
+          <div>
+            <button
+              className="btn btn-submit" 
+              type="submit"
+            >update</button>
+            <button
+              className="btn mx-2 btn-cancel" 
+              type="button" 
+              onClick={toggleModal}
+            >cancel</button>
+          </div>
         </form>
       </ModalBody>
     </Modal>
