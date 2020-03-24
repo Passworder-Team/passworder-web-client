@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory, useParams, Link } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import { Alert } from 'reactstrap'
 import passworderApi from '../config/api'
 
 import Header from '../components/Header'
@@ -14,6 +15,9 @@ export default function PasswordDetails ({ loginStatus }) {
   const [openModal, setOpenModal] = useState(false)
   const [openFormOtp, setOpenFormOtp] = useState(false)
   const [otpMesage, setOtpMessage] = useState('')
+  const [otpResponseMessage, setOtpResponseMessage] = useState('')
+  const [otpError, setOtpError] = useState(false)
+  const [hidePassword, setHidePassword] = useState(true)
   const [accountPassword, setAccountPassword] = useState('*********')
 
   useEffect(() => {
@@ -35,38 +39,34 @@ export default function PasswordDetails ({ loginStatus }) {
       .catch((err) => console.log(err))
   }
 
-  // const hide = (pass) => {
-  //   console.log('masuk hide')
-  //   if (pass) {
-  //     console.log(pass)
-  //     let hiddenPass = ''
-  //     pass.split('').forEach(_ => hiddenPass += '*')
-  //     return hiddenPass
-  //   }
-  // }
-
   const toggleModal = () => setOpenModal(!openModal)
   const toggleFormInputOtp = () => setOpenFormOtp(!openFormOtp)
   const passwordToShow = (pass) => setAccountPassword(pass)
+  const toggleHidePassword = (value) => setHidePassword(value)
 
   const requestShowPassword = (e, id) => {
-    e.preventDefault()
-    setVerifyUser(false)
-    setOpenFormOtp(true)
-    passworderApi({
-      method: 'GET',
-      url: `/otp/${id}`,
-      headers: {
-        token: localStorage.getItem('access_token')
-      }
-    })
-      .then(({ data }) => {
-        setOtpMessage(data.msg)
-        setVerifyUser(true)
+    if (accountPassword === '*********'){
+      e.preventDefault()
+      setOtpMessage('We have sent OTP code to your phone number, please wait...')
+      setVerifyUser(false)
+      toggleFormInputOtp()
+      passworderApi({
+        method: 'GET',
+        url: `/otp/${id}`,
+        headers: {
+          token: localStorage.getItem('access_token')
+        }
       })
-      .catch(err => {
-        console.log(err.response)
-      })
+        .then(({ data }) => {
+          setOtpMessage(data.msg)
+          setVerifyUser(true)
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+    } else {
+      toggleHidePassword(false)
+    }
   }
 
   const deletePassword = (e, id) => {
@@ -90,6 +90,10 @@ export default function PasswordDetails ({ loginStatus }) {
   return (
     <>
       <Header />
+      {console.log('hide password', hidePassword)}
+      {console.log('verified', verified)}
+      {console.log('password', password)}
+      {console.log(otpResponseMessage)}
       <div className="col-sm-12 col-lg-8 container">
         <div className="border-bottom p-3 detail-account-title-container">
           <h2 className="detail-account-title">
@@ -126,19 +130,35 @@ export default function PasswordDetails ({ loginStatus }) {
             <h3>{password.email}</h3>
           </div>
           <div className="my-5 pl-3 detail-account-item">
-            <h5>Registered password</h5>
+            <div className="show-password-area">
+              <h5 className="m-0">Registered password</h5>
+              {
+                !hidePassword
+                  ? <i
+                    className="mx-3 fas fa-eye-slash showPassword-toggle"
+                    onClick={() => toggleHidePassword(true)}
+                  ></i>
+                  : <i
+                    onClick={(e) => requestShowPassword(e, password.id)}
+                    className="mx-3 fas fa-eye showPassword-toggle"
+                  ></i>
+              }
+            </div>
             <div className="password-detail-area">
               <h3 className="m-0 p-0">
                 {
-                  verified
+                  verified && !hidePassword
                     ? accountPassword
                     : '*********'
                 }
               </h3>
-              <i 
-                onClick={(e) => requestShowPassword(e, password.id)}
-                className="mx-3 fas fa-eye showPassword-toggle"
-              ></i>
+              <Alert
+                className="alert-error" 
+                color="danger" 
+                isOpen={otpError}
+              >
+                {otpResponseMessage}
+            </Alert>
             </div>
           </div>
         </div>
@@ -152,8 +172,13 @@ export default function PasswordDetails ({ loginStatus }) {
           password={password}
           otpMesage={otpMesage}
           openFormOtp={openFormOtp}
+          setOpenFormOtp={setOpenFormOtp}
           toggleFormInputOtp={toggleFormInputOtp}
           passwordToShow={passwordToShow}
+          requestShowPassword={requestShowPassword}
+          setOtpResponseMessage={setOtpResponseMessage}
+          setOtpError={setOtpError}
+          setHidePassword={setHidePassword}
         />
       </div>
     </>

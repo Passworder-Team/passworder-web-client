@@ -26,6 +26,7 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
     })
       .then(({ data }) => {
         localStorage.setItem('access_token', data.token)
+        localStorage.setItem('current_user', data.user.name)
         setLoginStatus(true)
         history.push('/')
       })
