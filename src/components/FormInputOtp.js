@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Modal, ModalHeader, ModalBody } from 'reactstrap'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import passworderApi from '../config/api'
+import jwt from 'jsonwebtoken'
 
 export default function UpdatePasswordModal({
   openFormOtp,
@@ -12,11 +13,9 @@ export default function UpdatePasswordModal({
 }) {
   const [otpCode, setOtpCode] = useState('')
   const { id } = useParams()
-  const history = useHistory()
 
   const sendOtp = (e) => {
     e.preventDefault()
-    console.log(otpCode, id)
     const payload = {
       otp: otpCode,
       passId: id
@@ -30,8 +29,8 @@ export default function UpdatePasswordModal({
       }
     })
       .then(({ data }) => {
-        console.log(data)
-        passwordToShow(password.password)
+        const decoded = jwt.verify(password.password, data.secret)
+        passwordToShow(decoded)
       })
       .catch(err => {
         console.log(err)

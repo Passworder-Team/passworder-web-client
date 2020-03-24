@@ -28,20 +28,21 @@ export default function PasswordDetails ({ loginStatus }) {
       headers: { token }
     })
       .then(({ data }) => {
+        console.log(data)
         setPassword(data)
       })
       .catch((err) => console.log(err))
   }
 
-  const hide = (pass) => {
-    console.log('masuk hide')
-    if (pass) {
-      console.log(pass)
-      let hiddenPass = ''
-      pass.split('').forEach(_ => hiddenPass += '*')
-      return hiddenPass
-    }
-  }
+  // const hide = (pass) => {
+  //   console.log('masuk hide')
+  //   if (pass) {
+  //     console.log(pass)
+  //     let hiddenPass = ''
+  //     pass.split('').forEach(_ => hiddenPass += '*')
+  //     return hiddenPass
+  //   }
+  // }
 
   const toggleModal = () => setOpenModal(!openModal)
   const toggleFormInputOtp = () => setOpenFormOtp(!openFormOtp)
