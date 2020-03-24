@@ -40,20 +40,30 @@ export default function UpdatePasswordModal({
   return (
     <Modal isOpen={openFormOtp}>
       <ModalHeader>
-        Update account details
+        Input OTP Code
       </ModalHeader>
       <ModalBody>
         <form onSubmit={e => sendOtp(e)}>
-        {/* <form> */}
-          <label>{otpMesage}</label>
-          <input
-            value={otpCode}
-            onChange={e => setOtpCode(e.target.value)}
-            type="text"
-            required
-          /><br />
-          <button type="submit">Submit</button>
-          <button type="button" onClick={toggleFormInputOtp}>cancel</button>
+          <div className="form-group">
+            <label>{otpMesage}</label>
+            <input
+              value={otpCode}
+              onChange={e => setOtpCode(e.target.value)}
+              type="text"
+              required
+            /><br />
+          </div>
+          <div>
+            <button
+              className="btn btn-submit"
+              type="submit"
+            >Submit</button>
+            <button
+              className="btn mx-2 btn-cancel"
+              type="button"
+              onClick={toggleFormInputOtp}
+            >cancel</button>
+          </div>
         </form>
       </ModalBody>
     </Modal>

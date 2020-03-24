@@ -1,25 +1,36 @@
 *{
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Baloo 2', cursive;
 }
 
 a, button{
   cursor: pointer;
+  color: #222222;
 }
 
 a, a:hover{
   text-decoration: none;
+  color: #000;
 }
 
 .all-container {
   /* background-color: #000; */
   min-height: 100vh;
+  font-size: 1.3rem;
 }
 
 /* header begin */
 .header-container {
   display: flex;
   justify-content: space-between;
+  background-color: #222222;
+  color: #ffffff; 
+}
+
+.header-logo {
+  width: 2.5rem;
 }
 
 .current-user-container {
@@ -44,7 +55,11 @@ a, a:hover{
 }
 
 .btn-signout {
-  margin: 10px 0 0 0;
+  margin: 0;
+}
+
+.btn-signout:hover {
+  cursor: pointer;
 }
 /* header end */
 
@@ -104,3 +119,86 @@ a, a:hover{
   align-items: center;
 }
 /* sign area end */
+
+/* homePage begin */
+.password-list-container {
+  display: flex;
+  justify-content: center;
+}
+
+.accountName {
+  font-weight: bold;
+}
+
+.btn-to-detail {
+  background-color: rgb(36, 50, 82);
+  color: #ffffff;
+}
+
+.btn-add-password {
+  background-color: #504e4e;
+  color: #ffffff;
+}
+
+.form-add-edit-password {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-input {
+  width: 100%;
+}
+
+.btn-submit {
+  background-color: rgb(38, 71, 87);
+  color: #ffffff;
+}
+
+.btn-cancel {
+  background-color: rgb(148, 45, 45);
+  color: #ffffff;
+}
+/* homePage end */
+
+/* detail password begin */
+.detail-account-title-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail-account-title {
+  /* display: flex; */
+}
+
+.detail-account-action-container {
+  display: flex;
+  align-items: flex-end;
+}
+
+.detail-account-action {
+  display: flex;
+  align-content: center;
+}
+
+.detail-account-action:hover {
+  background-color: #333333;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.password-detail-area {
+  display: flex;
+  align-items: center;
+}
+
+.showPassword-toggle {
+  font-size: 2rem;
+}
+
+.showPassword-toggle:hover {
+  cursor: pointer;
+}
+/* detail password end */

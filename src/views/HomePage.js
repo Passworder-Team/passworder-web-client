@@ -6,6 +6,7 @@ import passworderApi from '../config/api'
 import Header from '../components/Header'
 import AddPasswordModal from '../components/AddPasswordModal'
 import PasswordList from '../components/PasswordList'
+import PasswordDetail from './PasswordDetails'
 
 export default function HomePage ({ loginStatus, setLoginStatus }) {
   const history = useHistory()
@@ -31,15 +32,23 @@ export default function HomePage ({ loginStatus, setLoginStatus }) {
   }
 
   return (
-    <>
+    <div className="homePage-container">
       <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>
-      <button onClick={() => setOpenModal(true)}>add new password</button>
-      <PasswordList passwords={passwords} />
-      <AddPasswordModal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        fetchPassword={fetchPassword}
-      />
-    </>
+      <div className="password-list-container">
+        <div className="col-sm-12 col-lg-6 password-list">
+          <button
+            className="my-3 btn btn-add-password" 
+            onClick={() => setOpenModal(true)}
+          >add new password</button>
+          <PasswordList passwords={passwords} />
+          <AddPasswordModal
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            fetchPassword={fetchPassword}
+          />
+        </div>
+      </div>
+      {/* <PasswordDetail /> */}
+    </div>
   )
 }
