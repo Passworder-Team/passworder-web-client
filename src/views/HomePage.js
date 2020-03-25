@@ -1,24 +1,41 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { Alert } from 'reactstrap'
 import passworderApi from '../config/api'
 
 // components
 import Header from '../components/Header'
 import AddPasswordModal from '../components/AddPasswordModal'
 import PasswordList from '../components/PasswordList'
+import Loading from '../components/Loading'
 
-export default function HomePage ({ loginStatus, setLoginStatus }) {
+export default function HomePage ({ 
+  loginStatus, 
+  setLoginStatus,
+  message,
+  isAnySuccessMessage,
+  setIsAnySuccessMessage,
+  setLoading,
+  loading,
+  setMessage
+}) {
   const history = useHistory()
   const [openModal, setOpenModal] = useState(false)
   const [passwords, setPasswords] = useState([])
 
   useEffect(() => {
     if(!loginStatus) history.push('/authentication')
-    fetchPassword()
+    else {
+      fetchPassword()
+      setTimeout(() => {
+        setIsAnySuccessMessage(false)
+      }, 3000);
+    }
   }, [loginStatus, history])
 
   const fetchPassword = () => {
     const token = localStorage.getItem('access_token')
+    setLoading(true)
     passworderApi({
       method: 'GET',
       url: '/passwords',
@@ -27,27 +44,48 @@ export default function HomePage ({ loginStatus, setLoginStatus }) {
       .then(({ data }) => {
         setPasswords(data)
       })
-      .catch((err) => console.log(err))
+      .catch((err) => setLoading(true))
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
     <div className="homePage-container">
       <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>
-      <div className="password-list-container">
-        <div className="col-sm-12 col-lg-6 password-list">
-          <button
-            className="my-3 btn btn-add-password" 
-            onClick={() => setOpenModal(true)}
-          >add new password</button>
-          <PasswordList passwords={passwords} />
-          <AddPasswordModal
-            openModal={openModal}
-            setOpenModal={setOpenModal}
-            fetchPassword={fetchPassword}
-          />
-        </div>
-      </div>
-      {/* <PasswordDetail /> */}
+      {
+        loading
+          ? <Loading />
+          : <div className="password-list-container">
+              <div className="col-sm-12 col-lg-6 password-list">
+                <div className="list-header">
+                  <button
+                    className="my-3 btn btn-add-password"
+                    onClick={() => setOpenModal(true)}
+                  >add new password</button>
+                  <Alert
+                    className="m-0"
+                    color="success"
+                    isOpen={isAnySuccessMessage}
+                  >
+                    {message}
+                  </Alert>
+                </div>
+                <PasswordList
+                  passwords={passwords}
+                />
+                <AddPasswordModal
+                  openModal={openModal}
+                  setOpenModal={setOpenModal}
+                  fetchPassword={fetchPassword}
+                  setIsAnySuccessMessage={setIsAnySuccessMessage}
+                  setMessage={setMessage}
+                  loading={loading}
+                  setLoading={setLoading}
+                />
+                </div>
+              </div>
+      }
     </div>
   )
 }

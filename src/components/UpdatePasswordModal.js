@@ -7,34 +7,49 @@ export default function UpdatePasswordModal ({
   passwordDetail,
   openModal,
   toggleModal,
-  fetchPassword
+  fetchPassword,
+  setIsAnySuccessMessage,
+  setMessage,
+  loading,
+  setLoading
 }) {
   const [account, setAccount] = useState(passwordDetail.account)
   const [email, setEmail] = useState(passwordDetail.email)
-  const [password, setPassword] = useState(passwordDetail.password)
+  const [password, setPassword] = useState('')
   const { id } = useParams()
   const history = useHistory()
 
   const updatePassword = e => {
     e.preventDefault()
+    setLoading(true)
     const token = localStorage.getItem('access_token')
     passworderApi({
       method: 'PUT',
-      url: `http://localhost:3000/passwords/${id}`,
+      url: `/passwords/${id}`,
       headers: { token },
       data: { account, email, password }
     })
       .then(({ data }) => {
-        console.log(data.msg)
+        setMessage(data.msg)
+        setIsAnySuccessMessage(true)
         fetchPassword()
         history.push('/')
       })
-      .catch(err => console.log(err))
+      .catch(err => setLoading(true))
       .finally(() => {
+        setLoading(false)
         setAccount('')
         setEmail('')
         setPassword('')
       })
+  }
+
+  const loadingStatus = () => {
+    if (loading) {
+      return <div>Loading...</div>
+    } else {
+      return <></>
+    }
   }
 
   return (
@@ -71,14 +86,13 @@ export default function UpdatePasswordModal ({
             <label>Account Password</label>
             <input
               className="form-control"
-              value={password}
               onChange={e => setPassword(e.target.value)}
               type="password"
               minLength="6"
               required
             />
           </div>
-          <div>
+          <div className="form-action-area">
             <button
               className="btn btn-submit" 
               type="submit"
@@ -88,6 +102,7 @@ export default function UpdatePasswordModal ({
               type="button" 
               onClick={toggleModal}
             >cancel</button>
+            {loadingStatus()}
           </div>
         </form>
       </ModalBody>

@@ -6,8 +6,16 @@ import passworderApi from '../config/api'
 import Header from '../components/Header'
 import UpdatePasswordModal from '../components/UpdatePasswordModal'
 import FormInputOtp from '../components/FormInputOtp'
+import Loading from '../components/Loading'
 
-export default function PasswordDetails ({ loginStatus }) {
+export default function PasswordDetails ({ 
+  loginStatus,
+  setIsAnySuccessMessage,
+  setMessage,
+  setLoading,
+  loading,
+  setLoginStatus
+}) {
   const history = useHistory()
   const { id } = useParams()
   const [verified, setVerifyUser] = useState(false)
@@ -26,6 +34,7 @@ export default function PasswordDetails ({ loginStatus }) {
   }, [history, loginStatus])
 
   const fetchPassword = () => {
+    setLoading(true)
     const token = localStorage.getItem('access_token')
     passworderApi({
       method: 'GET',
@@ -33,10 +42,12 @@ export default function PasswordDetails ({ loginStatus }) {
       headers: { token }
     })
       .then(({ data }) => {
-        console.log(data)
         setPassword(data)
       })
-      .catch((err) => console.log(err))
+      .catch((err) => setLoading(true))
+      .finally(_ => {
+        setLoading(false)
+      })
   }
 
   const toggleModal = () => setOpenModal(!openModal)
@@ -49,7 +60,7 @@ export default function PasswordDetails ({ loginStatus }) {
       e.preventDefault()
       setOtpMessage('We have sent OTP code to your phone number, please wait...')
       setVerifyUser(false)
-      toggleFormInputOtp()
+      setOpenFormOtp(true)
       passworderApi({
         method: 'GET',
         url: `/otp/${id}`,
@@ -62,7 +73,7 @@ export default function PasswordDetails ({ loginStatus }) {
           setVerifyUser(true)
         })
         .catch(err => {
-          console.log(err.response)
+          setVerifyUser(false)
         })
     } else {
       toggleHidePassword(false)
@@ -81,106 +92,107 @@ export default function PasswordDetails ({ loginStatus }) {
         fetchPassword()
         history.push('/')
       })
-      .catch((err) => console.log(err))
+      .catch((err) => setLoading(true))
   }
-  
-  if (!password) return <>loading</>
-
 
   return (
     <>
-      <Header />
-      {console.log('hide password', hidePassword)}
-      {console.log('verified', verified)}
-      {console.log('password', password)}
-      {console.log(otpResponseMessage)}
-      <div className="col-sm-12 col-lg-8 container">
-        <div className="border-bottom p-3 detail-account-title-container">
-          <h2 className="detail-account-title">
-            {password.account}
-          </h2>
-          <div className="detail-account-action-container">
-            <div 
-              className="mx-2 rounded p-2 detail-account-action"
-              onClick={toggleModal}
-            >
-              <i className="mx-1 fas fa-pen"></i>
-              <p className="m-0 lg-show">
-                Edit
-              </p>
+      <Header setLoginStatus={setLoginStatus} />
+      {
+        loading
+          ? <Loading />
+          : <div className="col-sm-12 col-lg-8 container">
+              <div className="border-bottom p-3 detail-account-title-container">
+                <h2 className="detail-account-title">
+                  {password.account}
+                </h2>
+                <div className="detail-account-action-container">
+                  <div
+                    className="mx-2 rounded p-2 detail-account-action"
+                    onClick={toggleModal}
+                  >
+                    <i className="mx-1 fas fa-pen"></i>
+                    <p className="m-0 lg-show">
+                      Edit
+                </p>
+                  </div>
+                  <div
+                    className="mx-2 rounded p-2 detail-account-action"
+                    onClick={(e) => deletePassword(e, password.id)}
+                  >
+                    <i className="mx-1 fas fa-trash"></i>
+                    <p className="m-0 lg-show">
+                      Remove
+                </p>
+                  </div>
+                </div>
+              </div>
+              <div className="detail-account-content-container">
+                <div className="my-5 pl-3 detail-account-item">
+                  <h5>Website address</h5>
+                  <h3>{password.account}</h3>
+                </div>
+                <div className="my-5 pl-3 detail-account-item">
+                  <h5>Registered email</h5>
+                  <h3>{password.email}</h3>
+                </div>
+                <div className="my-5 pl-3 detail-account-item">
+                  <div className="show-password-area">
+                    <h5 className="m-0">Registered password</h5>
+                    {
+                      !hidePassword
+                        ? <i
+                          className="mx-3 fas fa-eye-slash showPassword-toggle"
+                          onClick={() => toggleHidePassword(true)}
+                        ></i>
+                        : <i
+                          onClick={(e) => requestShowPassword(e, password.id)}
+                          className="mx-3 fas fa-eye showPassword-toggle"
+                        ></i>
+                    }
+                  </div>
+                  <div className="password-detail-area">
+                    <h3 className="m-0 p-0">
+                      {
+                        verified && !hidePassword
+                          ? accountPassword
+                          : '*********'
+                      }
+                    </h3>
+                    <Alert
+                      className="alert-error"
+                      color="danger"
+                      isOpen={otpError}
+                    >
+                      {otpResponseMessage}
+                    </Alert>
+                  </div>
+                </div>
+              </div>
+              <UpdatePasswordModal
+                passwordDetail={password}
+                openModal={openModal}
+                toggleModal={toggleModal}
+                fetchPassword={fetchPassword}
+                setIsAnySuccessMessage={setIsAnySuccessMessage}
+                setMessage={setMessage}
+                loading={loading}
+                setLoading={setLoading}
+              />
+              <FormInputOtp
+                password={password}
+                otpMesage={otpMesage}
+                openFormOtp={openFormOtp}
+                setOpenFormOtp={setOpenFormOtp}
+                toggleFormInputOtp={toggleFormInputOtp}
+                passwordToShow={passwordToShow}
+                requestShowPassword={requestShowPassword}
+                setOtpResponseMessage={setOtpResponseMessage}
+                setOtpError={setOtpError}
+                setHidePassword={setHidePassword}
+              />
             </div>
-            <div 
-              className="mx-2 rounded p-2 detail-account-action"
-              onClick={(e) => deletePassword(e, password.id)}
-            >
-              <i className="mx-1 fas fa-trash"></i>
-              <p className="m-0 lg-show">
-                Remove
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="detail-account-content-container">
-          <div className="my-5 pl-3 detail-account-item">
-            <h5>Website address</h5>
-            <h3>{password.account}</h3>
-          </div>
-          <div className="my-5 pl-3 detail-account-item">
-            <h5>Registered email</h5>
-            <h3>{password.email}</h3>
-          </div>
-          <div className="my-5 pl-3 detail-account-item">
-            <div className="show-password-area">
-              <h5 className="m-0">Registered password</h5>
-              {
-                !hidePassword
-                  ? <i
-                    className="mx-3 fas fa-eye-slash showPassword-toggle"
-                    onClick={() => toggleHidePassword(true)}
-                  ></i>
-                  : <i
-                    onClick={(e) => requestShowPassword(e, password.id)}
-                    className="mx-3 fas fa-eye showPassword-toggle"
-                  ></i>
-              }
-            </div>
-            <div className="password-detail-area">
-              <h3 className="m-0 p-0">
-                {
-                  verified && !hidePassword
-                    ? accountPassword
-                    : '*********'
-                }
-              </h3>
-              <Alert
-                className="alert-error" 
-                color="danger" 
-                isOpen={otpError}
-              >
-                {otpResponseMessage}
-            </Alert>
-            </div>
-          </div>
-        </div>
-        <UpdatePasswordModal
-          passwordDetail={password}
-          openModal={openModal}
-          toggleModal={toggleModal}
-          fetchPassword={fetchPassword}
-        />
-        <FormInputOtp 
-          password={password}
-          otpMesage={otpMesage}
-          openFormOtp={openFormOtp}
-          setOpenFormOtp={setOpenFormOtp}
-          toggleFormInputOtp={toggleFormInputOtp}
-          passwordToShow={passwordToShow}
-          requestShowPassword={requestShowPassword}
-          setOtpResponseMessage={setOtpResponseMessage}
-          setOtpError={setOtpError}
-          setHidePassword={setHidePassword}
-        />
-      </div>
+      }
     </>
   )
 }

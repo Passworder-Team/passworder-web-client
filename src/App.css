@@ -21,6 +21,25 @@ a, a:hover{
   font-size: 1.3rem;
 }
 
+.loading-container {
+  width: 100%;
+  height: 100%;
+  /* background: #666666; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+}
+
+.loading {
+  z-index: 100;
+}
+
+.loading-img {
+  width: 5%;
+}
+
 /* header begin */
 .header-container {
   display: flex;
@@ -100,6 +119,7 @@ a, a:hover{
 .sign-logo-container {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-bottom: 2rem;
@@ -124,6 +144,13 @@ a, a:hover{
 .password-list-container {
   display: flex;
   justify-content: center;
+}
+
+.list-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .accountName {
@@ -225,5 +252,10 @@ a, a:hover{
 
 .alert-error {
   font-size: 1rem;
+}
+
+.form-action-area {
+  display: flex;
+  align-items: center;
 }
 /* detail password end */
