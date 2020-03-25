@@ -11,7 +11,14 @@ import { useHistory } from 'react-router-dom'
 import LoginTab from '../components/LoginTab'
 import RegisterTab from '../components/RegisterTab'
 
-export default function AuthenticationPage ({ loginStatus, setLoginStatus }) {
+export default function AuthenticationPage ({ 
+  loginStatus, 
+  setLoginStatus,
+  setLoading,
+  loading,
+  setIsAnySuccessMessage,
+  setMessage
+}) {
   const history = useHistory()
 
   useEffect(() => {
@@ -22,6 +29,14 @@ export default function AuthenticationPage ({ loginStatus, setLoginStatus }) {
 
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
+  }
+
+  const loadingStatus = () => {
+    if(loading) {
+      return <div>Loading...</div>
+    } else {
+      return <></>
+    }
   }
 
   return (
@@ -37,6 +52,7 @@ export default function AuthenticationPage ({ loginStatus, setLoginStatus }) {
       >
         <div className="sign-logo-container">
           <img className="logo-img" src={require("../assets/images/passworder-logo-1.png")} alt="logo-img"></img>
+          {loadingStatus()}
         </div>
         <Nav tabs>
           <div className="col-6">
@@ -61,8 +77,20 @@ export default function AuthenticationPage ({ loginStatus, setLoginStatus }) {
           </div>
         </Nav>
         <TabContent activeTab={activeTab}>
-          <LoginTab tabId={"1"} setLoginStatus={setLoginStatus} />
-          <RegisterTab tabId={"2"} setLoginStatus={setLoginStatus} />
+          <LoginTab 
+            tabId={"1"} 
+            setLoginStatus={setLoginStatus}
+            setLoading={setLoading}
+            setIsAnySuccessMessage={setIsAnySuccessMessage}
+            setMessage={setMessage}  
+          />
+          <RegisterTab 
+            tabId={"2"} 
+            setLoginStatus={setLoginStatus}
+            setLoading={setLoading}
+            setIsAnySuccessMessage={setIsAnySuccessMessage}
+            setMessage={setMessage}  
+          />
         </TabContent>
       </div>
     </div>

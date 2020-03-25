@@ -3,7 +3,13 @@ import { TabPane, Row, Col } from 'reactstrap'
 import passworderApi from '../config/api'
 import { useHistory } from 'react-router-dom'
 
-export default function RegisterTab ({ tabId, setLoginStatus }) {
+export default function RegisterTab ({ 
+  tabId, 
+  setLoginStatus,
+  setLoading,
+  setIsAnySuccessMessage,
+  setMessage
+}) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -12,6 +18,7 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
 
   const register = (e) => {
     e.preventDefault()
+    setLoading(true)
     let newPhone = phone.split('').map((num, i) => i === 0 ? num = '+62' : num).join('')
     let payload = { 
       name, 
@@ -28,14 +35,18 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
         localStorage.setItem('access_token', data.token)
         localStorage.setItem('current_user', data.user.name)
         setLoginStatus(true)
+        setIsAnySuccessMessage(true)
+        setMessage('Hi, ' + data.user.name)
         history.push('/')
       })
       .catch((err) => {
-        console.log(err.response)
         setName('')
         setEmail('')
         setPhone('')
         setPassword('')
+      })
+      .finally(_ => {
+        setLoading(false)
       })
   }
 

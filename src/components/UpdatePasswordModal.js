@@ -9,7 +9,11 @@ export default function UpdatePasswordModal ({
   toggleModal,
   fetchPassword,
   setIsAnySuccessMessage,
-  setMessage
+  setMessage,
+  verified,
+  passwordToShow,
+  loading,
+  setLoading
 }) {
   const [account, setAccount] = useState(passwordDetail.account)
   const [email, setEmail] = useState(passwordDetail.email)
@@ -19,10 +23,11 @@ export default function UpdatePasswordModal ({
 
   const updatePassword = e => {
     e.preventDefault()
+    setLoading(true)
     const token = localStorage.getItem('access_token')
     passworderApi({
       method: 'PUT',
-      url: `http://localhost:3000/passwords/${id}`,
+      url: `/passwords/${id}`,
       headers: { token },
       data: { account, email, password }
     })
@@ -32,12 +37,21 @@ export default function UpdatePasswordModal ({
         fetchPassword()
         history.push('/')
       })
-      .catch(err => console.log(err))
+      .catch(err => setLoading(true))
       .finally(() => {
+        setLoading(false)
         setAccount('')
         setEmail('')
         setPassword('')
       })
+  }
+
+  const loadingStatus = () => {
+    if (loading) {
+      return <div>Loading...</div>
+    } else {
+      return <></>
+    }
   }
 
   return (
@@ -74,14 +88,18 @@ export default function UpdatePasswordModal ({
             <label>Account Password</label>
             <input
               className="form-control"
-              value={password}
+              value={
+                verified 
+                  ? passwordToShow
+                : '*********'
+              }
               onChange={e => setPassword(e.target.value)}
               type="password"
               minLength="6"
               required
             />
           </div>
-          <div>
+          <div className="form-action-area">
             <button
               className="btn btn-submit" 
               type="submit"
@@ -91,6 +109,7 @@ export default function UpdatePasswordModal ({
               type="button" 
               onClick={toggleModal}
             >cancel</button>
+            {loadingStatus()}
           </div>
         </form>
       </ModalBody>

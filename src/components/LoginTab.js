@@ -3,13 +3,22 @@ import { TabPane, Row, Col } from 'reactstrap'
 import passworderApi from '../config/api'
 import { useHistory } from 'react-router-dom'
 
-export default function RegisterTab ({ tabId, setLoginStatus }) {
+export default function RegisterTab ({ 
+  tabId, 
+  setLoginStatus,
+  setLoading,
+  setIsAnySuccessMessage,
+  setMessage 
+}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const history = useHistory()
+  const [errorLoginMessage, setErrorLoginMessage] = useState('')
+  const [isErrorLogin, setIsErrorLogin] = useState(false)
 
   const login = (e) => {
     e.preventDefault()
+    setLoading(true)
     let payload = { email, password }
     passworderApi({
       method: 'POST',
@@ -17,17 +26,33 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
       data: payload
     })
       .then(({ data }) => {
-        console.log(data)
         localStorage.setItem('current_user', data.user.name)
         localStorage.setItem('access_token', data.token)
         setLoginStatus(true)
+        setIsAnySuccessMessage(true)
+        setMessage('Hi, ' + data.user.name)
         history.push('/')
+        setIsErrorLogin(false)
       })
       .catch((err) => {
-        console.log(err.response)
+        setIsErrorLogin(true)
+        setErrorLoginMessage(err.response.data.name)
         setEmail('')
         setPassword('')
       })
+      .finally(_ => {
+        setLoading(false)
+      })
+  }
+
+  const errorMessage = () => {
+    if(isErrorLogin) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          {errorLoginMessage}
+        </div>
+      )
+    }
   }
 
   return (
@@ -63,6 +88,7 @@ export default function RegisterTab ({ tabId, setLoginStatus }) {
               </div>
               <div className="form-action-container">
                 <button className="btn btn-dark mr-3" type="submit">Sign in</button>
+                {errorMessage()}
               </div>
             </div>
           </form>

@@ -5,7 +5,11 @@ import passworderApi from '../config/api'
 export default function AddPasswordModal ({
   openModal,
   setOpenModal,
-  fetchPassword
+  fetchPassword,
+  setIsAnySuccessMessage,
+  setLoading,
+  loading,
+  setMessage
 }) {
   const [account, setAccount] = useState('')
   const [email, setEmail] = useState('')
@@ -13,24 +17,38 @@ export default function AddPasswordModal ({
 
   const createPassword = e => {
     e.preventDefault()
+    setLoading(true)
     const token = localStorage.getItem('access_token')
     passworderApi({
       method: 'POST',
-      url: 'http://localhost:3000/passwords',
+      url: '/passwords',
       headers: { token },
       data: { account, email, password }
     })
       .then(({ data }) => {
-        console.log(data.msg)
+        setMessage(data.msg)
+        setIsAnySuccessMessage(true)
+        setTimeout(() => {
+          setIsAnySuccessMessage(false)
+        }, 3000);
         fetchPassword()
         setOpenModal(false)
       })
-      .catch(err => console.log(err))
+      .catch(err => setLoading(true))
       .finally(() => {
+        setLoading(false)
         setAccount('')
         setEmail('')
         setPassword('')
       })
+  }
+
+  const loadingStatus = () => {
+    if (loading) {
+      return <div>Loading...</div>
+    } else {
+      return <></>
+    }
   }
 
   return (
@@ -74,7 +92,7 @@ export default function AddPasswordModal ({
               required
             />
           </div>
-          <div>
+          <div className="form-action-area">
             <button
               className="btn btn-submit" 
               type="submit"
@@ -84,6 +102,7 @@ export default function AddPasswordModal ({
               type="button" 
               onClick={() => setOpenModal(false)}
             >cancel</button>
+            {loadingStatus()}
           </div>
         </form>
       </ModalBody>
