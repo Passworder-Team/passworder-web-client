@@ -16,7 +16,8 @@ export default function HomePage ({
   isAnySuccessMessage,
   setIsAnySuccessMessage,
   setLoading,
-  loading
+  loading,
+  setMessage
 }) {
   const history = useHistory()
   const [openModal, setOpenModal] = useState(false)
@@ -28,7 +29,7 @@ export default function HomePage ({
     setTimeout(() => {
       setIsAnySuccessMessage(false)
     }, 3000);
-  }, [loginStatus, history, isAnySuccessMessage])
+  }, [loginStatus, history])
 
   const fetchPassword = () => {
     const token = localStorage.getItem('access_token')
@@ -41,7 +42,7 @@ export default function HomePage ({
       .then(({ data }) => {
         setPasswords(data)
       })
-      .catch((err) => console.log(err))
+      .catch((err) => setLoading(true))
       .finally(() => {
         setLoading(false)
       })
@@ -75,6 +76,10 @@ export default function HomePage ({
                   openModal={openModal}
                   setOpenModal={setOpenModal}
                   fetchPassword={fetchPassword}
+                  setIsAnySuccessMessage={setIsAnySuccessMessage}
+                  setMessage={setMessage}
+                  loading={loading}
+                  setLoading={setLoading}
                 />
                 </div>
               </div>

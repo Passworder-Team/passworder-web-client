@@ -38,12 +38,17 @@ function App() {
                 setIsAnySuccessMessage={setIsAnySuccessMessage}
                 setLoading={setLoading}
                 loading={loading}
+                setMessage={setMessage} 
               />
             </Route>
             <Route path="/authentication">
               <AuthenticationPage 
                 loginStatus={loginStatus} 
-                setLoginStatus={setLoginStatus} 
+                setLoginStatus={setLoginStatus}
+                setLoading={setLoading}
+                loading={loading}
+                setIsAnySuccessMessage={setIsAnySuccessMessage}
+                setMessage={setMessage} 
               />
             </Route>
             <Route path="/accountdetail/:id">
@@ -51,6 +56,8 @@ function App() {
                 loginStatus={loginStatus}
                 setIsAnySuccessMessage={setIsAnySuccessMessage}
                 setMessage={setMessage}
+                setLoading={setLoading}
+                loading={loading}
               />
             </Route>
             <Route path="/*">
