@@ -33,20 +33,18 @@ export default function HomePage ({
   const fetchPassword = () => {
     const token = localStorage.getItem('access_token')
     setLoading(true)
-    setTimeout(() => {
-      passworderApi({
-        method: 'GET',
-        url: '/passwords',
-        headers: { token }
+    passworderApi({
+      method: 'GET',
+      url: '/passwords',
+      headers: { token }
+    })
+      .then(({ data }) => {
+        setPasswords(data)
       })
-        .then(({ data }) => {
-          setPasswords(data)
-        })
-        .catch((err) => console.log(err))
-        .finally(() => {
-          setLoading(false)
-        })
-    }, 2000);
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
