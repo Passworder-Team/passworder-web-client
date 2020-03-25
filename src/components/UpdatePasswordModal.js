@@ -10,14 +10,12 @@ export default function UpdatePasswordModal ({
   fetchPassword,
   setIsAnySuccessMessage,
   setMessage,
-  verified,
-  passwordToShow,
   loading,
   setLoading
 }) {
   const [account, setAccount] = useState(passwordDetail.account)
   const [email, setEmail] = useState(passwordDetail.email)
-  const [password, setPassword] = useState(passwordDetail.password)
+  const [password, setPassword] = useState('')
   const { id } = useParams()
   const history = useHistory()
 
@@ -88,11 +86,6 @@ export default function UpdatePasswordModal ({
             <label>Account Password</label>
             <input
               className="form-control"
-              value={
-                verified 
-                  ? passwordToShow
-                : '*********'
-              }
               onChange={e => setPassword(e.target.value)}
               type="password"
               minLength="6"

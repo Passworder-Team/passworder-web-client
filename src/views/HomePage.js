@@ -50,13 +50,9 @@ export default function HomePage ({
       })
   }
 
-  const logout = () => {
-    setLoginStatus(false)
-  }
-
   return (
     <div className="homePage-container">
-      <Header loginStatus={loginStatus} logout={logout}/>
+      <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>
       {
         loading
           ? <Loading />
