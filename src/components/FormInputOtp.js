@@ -67,10 +67,10 @@ export default function UpdatePasswordModal({
                 type="text"
                 required
               />
-              <button
+              <div
                 className="ml-3 btn btn-resend-otp"
                 onClick={e => requestShowPassword(e, id)}
-              >Resend OTP Code</button>
+              >Resend OTP Code</div>
             </div>
           </div>
           <div>
