@@ -194,6 +194,7 @@ a, a:hover{
   width: 100%;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .detail-account-title {
@@ -242,6 +243,7 @@ a, a:hover{
 .input-otp-area {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .btn-resend-otp:hover {

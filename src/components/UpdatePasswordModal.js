@@ -53,7 +53,7 @@ export default function UpdatePasswordModal ({
   }
 
   return (
-    <Modal isOpen={openModal}>
+    <Modal isOpen={openModal} className="col-sm-12">
       <ModalHeader>
         Update account details
       </ModalHeader>

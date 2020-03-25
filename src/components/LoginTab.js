@@ -37,6 +37,9 @@ export default function RegisterTab ({
       .catch((err) => {
         setIsErrorLogin(true)
         setErrorLoginMessage(err.response.data.name)
+        setTimeout(() => {
+          setIsErrorLogin(false)
+        }, 3000);
         setEmail('')
         setPassword('')
       })
