@@ -176,8 +176,6 @@ export default function PasswordDetails ({
                 fetchPassword={fetchPassword}
                 setIsAnySuccessMessage={setIsAnySuccessMessage}
                 setMessage={setMessage}
-                verified={verified}
-                passwordToShow={passwordToShow}
                 loading={loading}
                 setLoading={setLoading}
               />

@@ -73,6 +73,7 @@ export default function RegisterTab ({
                 <input
                   className="form-control"
                   type="email"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
@@ -82,6 +83,7 @@ export default function RegisterTab ({
                 <input
                   className="form-control"
                   type="password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
