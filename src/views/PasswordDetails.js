@@ -27,6 +27,7 @@ export default function PasswordDetails ({
   const [otpError, setOtpError] = useState(false)
   const [hidePassword, setHidePassword] = useState(true)
   const [accountPassword, setAccountPassword] = useState('*********')
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   useEffect(() => {
     if(!loginStatus) history.push('/authentication')
@@ -82,6 +83,7 @@ export default function PasswordDetails ({
 
   const deletePassword = (e, id) => {
     e.preventDefault()
+    setLoading(true)
     const token  = localStorage.getItem('access_token')
     passworderApi({
       method: 'DELETE',
@@ -93,6 +95,17 @@ export default function PasswordDetails ({
         history.push('/')
       })
       .catch((err) => setLoading(true))
+      .finally(_ => {
+        setLoading(false)
+        setConfirmDelete(false)
+      })
+  }
+
+  const toggleBtnRemove = () => {
+    setConfirmDelete(true)
+    setTimeout(() => {
+      setConfirmDelete(false)
+    }, 3000);
   }
 
   return (
@@ -114,17 +127,24 @@ export default function PasswordDetails ({
                     <i className="mx-1 fas fa-pen"></i>
                     <p className="m-0 lg-show">
                       Edit
-                </p>
+                    </p>
                   </div>
-                  <div
-                    className="mx-2 rounded p-2 detail-account-action"
-                    onClick={(e) => deletePassword(e, password.id)}
-                  >
-                    <i className="mx-1 fas fa-trash"></i>
-                    <p className="m-0 lg-show">
-                      Remove
-                </p>
-                  </div>
+                  {
+                    confirmDelete
+                    ? <button 
+                        className="btn btn-danger"
+                        onClick={(e) => deletePassword(e, password.id)}
+                      >Confirm remove</button>
+                    : <div
+                        className="mx-2 rounded p-2 detail-account-action"
+                        onClick={() => toggleBtnRemove()}
+                      >
+                        <i className="mx-1 fas fa-trash"></i>
+                        <p className="m-0 lg-show">
+                          Remove
+                      </p>
+                      </div>
+                  }
                 </div>
               </div>
               <div className="detail-account-content-container">
