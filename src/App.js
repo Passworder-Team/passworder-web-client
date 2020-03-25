@@ -12,6 +12,9 @@ import PasswordDetails from './views/PasswordDetails';
 
 function App() {
   const [loginStatus, setLoginStatus] = useState(false)
+  const [message, setMessage] = useState('')
+  const [isAnySuccessMessage, setIsAnySuccessMessage] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token')
@@ -30,13 +33,25 @@ function App() {
               <HomePage
                 loginStatus={loginStatus}
                 setLoginStatus={setLoginStatus}
+                message={message}
+                isAnySuccessMessage={isAnySuccessMessage}
+                setIsAnySuccessMessage={setIsAnySuccessMessage}
+                setLoading={setLoading}
+                loading={loading}
               />
             </Route>
             <Route path="/authentication">
-              <AuthenticationPage loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
+              <AuthenticationPage 
+                loginStatus={loginStatus} 
+                setLoginStatus={setLoginStatus} 
+              />
             </Route>
             <Route path="/accountdetail/:id">
-              <PasswordDetails loginStatus={loginStatus} />
+              <PasswordDetails 
+                loginStatus={loginStatus}
+                setIsAnySuccessMessage={setIsAnySuccessMessage}
+                setMessage={setMessage}
+              />
             </Route>
             <Route path="/*">
               404 ROUTE NOT FOUND
