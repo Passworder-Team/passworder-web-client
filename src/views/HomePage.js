@@ -25,10 +25,12 @@ export default function HomePage ({
 
   useEffect(() => {
     if(!loginStatus) history.push('/authentication')
-    fetchPassword()
-    setTimeout(() => {
-      setIsAnySuccessMessage(false)
-    }, 3000);
+    else {
+      fetchPassword()
+      setTimeout(() => {
+        setIsAnySuccessMessage(false)
+      }, 3000);
+    }
   }, [loginStatus, history])
 
   const fetchPassword = () => {

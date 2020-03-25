@@ -13,7 +13,8 @@ export default function PasswordDetails ({
   setIsAnySuccessMessage,
   setMessage,
   setLoading,
-  loading
+  loading,
+  setLoginStatus
 }) {
   const history = useHistory()
   const { id } = useParams()
@@ -96,7 +97,7 @@ export default function PasswordDetails ({
 
   return (
     <>
-      <Header />
+      <Header setLoginStatus={setLoginStatus} />
       {
         loading
           ? <Loading />
@@ -175,8 +176,6 @@ export default function PasswordDetails ({
                 fetchPassword={fetchPassword}
                 setIsAnySuccessMessage={setIsAnySuccessMessage}
                 setMessage={setMessage}
-                verified={verified}
-                passwordToShow={passwordToShow}
                 loading={loading}
                 setLoading={setLoading}
               />
