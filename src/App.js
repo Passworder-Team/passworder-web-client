@@ -57,6 +57,7 @@ function App() {
                 setIsAnySuccessMessage={setIsAnySuccessMessage}
                 setMessage={setMessage}
                 setLoading={setLoading}
+                setLoginStatus={setLoginStatus}
                 loading={loading}
               />
             </Route>

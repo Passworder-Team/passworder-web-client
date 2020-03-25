@@ -25,10 +25,12 @@ export default function HomePage ({
 
   useEffect(() => {
     if(!loginStatus) history.push('/authentication')
-    fetchPassword()
-    setTimeout(() => {
-      setIsAnySuccessMessage(false)
-    }, 3000);
+    else {
+      fetchPassword()
+      setTimeout(() => {
+        setIsAnySuccessMessage(false)
+      }, 3000);
+    }
   }, [loginStatus, history])
 
   const fetchPassword = () => {
@@ -48,9 +50,13 @@ export default function HomePage ({
       })
   }
 
+  const logout = () => {
+    setLoginStatus(false)
+  }
+
   return (
     <div className="homePage-container">
-      <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>
+      <Header loginStatus={loginStatus} logout={logout}/>
       {
         loading
           ? <Loading />
