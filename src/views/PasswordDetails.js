@@ -7,7 +7,11 @@ import Header from '../components/Header'
 import UpdatePasswordModal from '../components/UpdatePasswordModal'
 import FormInputOtp from '../components/FormInputOtp'
 
-export default function PasswordDetails ({ loginStatus }) {
+export default function PasswordDetails ({ 
+  loginStatus,
+  setIsAnySuccessMessage,
+  setMessage
+}) {
   const history = useHistory()
   const { id } = useParams()
   const [verified, setVerifyUser] = useState(false)
@@ -33,7 +37,6 @@ export default function PasswordDetails ({ loginStatus }) {
       headers: { token }
     })
       .then(({ data }) => {
-        console.log(data)
         setPassword(data)
       })
       .catch((err) => console.log(err))
@@ -90,10 +93,6 @@ export default function PasswordDetails ({ loginStatus }) {
   return (
     <>
       <Header />
-      {console.log('hide password', hidePassword)}
-      {console.log('verified', verified)}
-      {console.log('password', password)}
-      {console.log(otpResponseMessage)}
       <div className="col-sm-12 col-lg-8 container">
         <div className="border-bottom p-3 detail-account-title-container">
           <h2 className="detail-account-title">
@@ -167,6 +166,8 @@ export default function PasswordDetails ({ loginStatus }) {
           openModal={openModal}
           toggleModal={toggleModal}
           fetchPassword={fetchPassword}
+          setIsAnySuccessMessage={setIsAnySuccessMessage}
+          setMessage={setMessage}
         />
         <FormInputOtp 
           password={password}

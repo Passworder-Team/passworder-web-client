@@ -7,7 +7,9 @@ export default function UpdatePasswordModal ({
   passwordDetail,
   openModal,
   toggleModal,
-  fetchPassword
+  fetchPassword,
+  setIsAnySuccessMessage,
+  setMessage
 }) {
   const [account, setAccount] = useState(passwordDetail.account)
   const [email, setEmail] = useState(passwordDetail.email)
@@ -25,7 +27,8 @@ export default function UpdatePasswordModal ({
       data: { account, email, password }
     })
       .then(({ data }) => {
-        console.log(data.msg)
+        setMessage(data.msg)
+        setIsAnySuccessMessage(true)
         fetchPassword()
         history.push('/')
       })

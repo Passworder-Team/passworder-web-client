@@ -46,6 +46,9 @@ export default function UpdatePasswordModal({
         setOtpError(true)
         setOpenFormOtp(false)
       })
+      .finally(() => {
+        setOtpCode('')
+      })
   }
 
   return (
